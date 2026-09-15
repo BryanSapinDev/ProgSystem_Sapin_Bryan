@@ -10,9 +10,9 @@ public class Gradient {
             }
         }
 		
-		//TODO : Comprendre pourquoi succès mais pas de fichier
         try {
             img.save_txt("gradient.ppm");
+			img.save_bin("gradientBin.ppm");
             System.out.println("Dégradé créé avec succès !");
         } catch (Exception e) {
             System.err.println("Erreur lors de la création du dégradé : " + e.getMessage());
