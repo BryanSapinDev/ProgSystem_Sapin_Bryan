@@ -35,7 +35,7 @@ public class Image {
      */
     public void save_txt(String filename) throws IOException {
         try {
-            FileWriter writer = new FileWriter("FirstPPM.ppm");
+            FileWriter writer = new FileWriter(filename);
 
             writer.write("P3\n");
             writer.write(width + " " + height + "\n");
@@ -48,6 +48,7 @@ public class Image {
 					writer.write(pixels[hauteur][largeur][2] + " "); //B
 				}
 			}
+			writer.write("\n");
 
             writer.close(); // Fermeture du fichier
 
