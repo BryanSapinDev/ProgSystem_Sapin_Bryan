@@ -71,6 +71,6 @@ public class MemoryManager {
     }
 
     public byte[] getFilesystemMemory() {
-        return memory;
+        return memory; 
     }
 }
