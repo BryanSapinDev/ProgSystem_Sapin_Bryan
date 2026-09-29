@@ -1,5 +1,3 @@
-package SystemeFichiersVirtuel;
-
 public class Utils {
 
     public static int writeInt(byte[] memory, int offset, int value) {
@@ -93,9 +91,7 @@ public class Utils {
 
 		return result;
 	}
-	
-	
-	
+
 	public static void main(String[] args) {
 		byte[] mem = new byte[6];
 		System.out.println(writeInt(mem, 0, 10));

@@ -1,4 +1,3 @@
-package SystemeFichiersVirtuel;
 public class TestRunner {
 	public static void testStep5() {
 		System.out.println("=== TEST ÉTAPE 5 : Bitmap et Allocation ===");
@@ -62,7 +61,25 @@ public class TestRunner {
 		System.out.println("[OK] Étape 5 validée !");
 	}
 	
+	public static void testStep6() {
+		System.out.println("=== TEST ÉTAPE 6 : Adressage Inode ===");
+
+		MemoryManager mm = new MemoryManager();
+
+		Inode inode = new Inode(mm, 4);
+
+		int expectedOffset =
+				MemoryManager.INODE_TABLE_OFFSET
+				+ (4 * Inode.INODE_SIZE);
+
+		assert inode.getInodeOffset() == expectedOffset :
+				"Offset d'inode incorrect";
+
+		System.out.println("[OK] Étape 6 validée !");
+	}
+
+	
 	public static void main(String args[]) {
-		testStep5();
+		testStep6();
 	}
 }

@@ -1,7 +1,3 @@
-package SystemeFichiersVirtuel;
-
-import java.io.*;
-
 public class MemoryManager {
 
     public static final int BLOCK_SIZE = 512; //en octet
@@ -126,18 +122,10 @@ public class MemoryManager {
 		//
 		// Retourner le premier bloc libre.
 		// Le marquer immédiatement comme utilisé.
-		int numByte;
-		int numBit;
-		for (numByte = BITMAP_OFFSET;
-		      numByte < BITMAP_OFFSET + BLOCK_SIZE && memory[numByte] != 0xFF;
-			  numByte++);
-		for (numBit = 0;
-		      numBit < 8 && (((memory[numByte] >> numBit) & 0x01) != 0x00);
-			  numBit++);
-		int blockNumber = (numByte-BITMAP_OFFSET) * 8 + numBit;
-		setBlockUsed(blockNumber, true);
-		System.out.println(blockNumber);
-		return blockNumber ;
+		int block;
+		for (block = 129; isBlockUsed(block) == 1 && block < NUM_BLOCKS; block++ );
+		setBlockUsed(block, true);
+		return block;
 	}
 
 }
