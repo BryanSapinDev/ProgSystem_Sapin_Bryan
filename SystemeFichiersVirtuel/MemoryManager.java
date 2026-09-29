@@ -1,9 +1,11 @@
+package SystemeFichiersVirtuel;
+
 import java.io.*;
 
 public class MemoryManager {
 
-    public static final int BLOCK_SIZE = 512;
-    public static final int TOTAL_MEMORY = 1024 * 1024;
+    public static final int BLOCK_SIZE = 512; //en octet
+    public static final int TOTAL_MEMORY = 1024 * 1024; //en octet
     public static final int NUM_BLOCKS =
             TOTAL_MEMORY / BLOCK_SIZE;
 
@@ -73,4 +75,69 @@ public class MemoryManager {
     public byte[] getFilesystemMemory() {
         return memory; 
     }
+	
+	public boolean setBlockUsed(int blockNumber, boolean used) {
+		if (blockNumber < 0 ||
+			blockNumber >= NUM_BLOCKS) {
+			return false;
+		}
+
+		int byteIndex = blockNumber / 8;
+		int bitPosition = blockNumber % 8;
+		int offset = BITMAP_OFFSET + byteIndex;
+
+		if (used) {
+			// TODO:
+			// Positionner le bit à 1.
+			memory[offset] |= (0x01 << bitPosition);
+		} else {
+			// TODO:
+			// Positionner le bit à 0.
+			memory[offset] ^= (0x01 << bitPosition);
+		}
+
+		return true;
+	}
+
+	public int isBlockUsed(int blockNumber) {
+
+		if (blockNumber < 0 ||
+			blockNumber >= NUM_BLOCKS) {
+			return -1;
+		}
+
+		// TODO:
+		// Calculer byteIndex.
+		// Calculer bitPosition.
+		// Lire le bit.
+		int byteIndex = blockNumber / 8;
+		int bitPosition = blockNumber % 8;
+		int offset = BITMAP_OFFSET + byteIndex;
+		int result = (memory[offset] >> bitPosition) & 0x01;
+
+		return result;
+	}
+
+	public int allocateBlock() {
+
+		// TODO:
+		// Parcourir les blocs de données :
+		// 129 .. NUM_BLOCKS - 1.
+		//
+		// Retourner le premier bloc libre.
+		// Le marquer immédiatement comme utilisé.
+		int numByte;
+		int numBit;
+		for (numByte = BITMAP_OFFSET;
+		      numByte < BITMAP_OFFSET + BLOCK_SIZE && memory[numByte] != 0xFF;
+			  numByte++);
+		for (numBit = 0;
+		      numBit < 8 && (((memory[numByte] >> numBit) & 0x01) != 0x00);
+			  numBit++);
+		int blockNumber = (numByte-BITMAP_OFFSET) * 8 + numBit;
+		setBlockUsed(blockNumber, true);
+		System.out.println(blockNumber);
+		return blockNumber ;
+	}
+
 }

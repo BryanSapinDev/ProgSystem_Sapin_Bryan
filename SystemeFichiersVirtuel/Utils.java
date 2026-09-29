@@ -1,3 +1,5 @@
+package SystemeFichiersVirtuel;
+
 public class Utils {
 
     public static int writeInt(byte[] memory, int offset, int value) {
