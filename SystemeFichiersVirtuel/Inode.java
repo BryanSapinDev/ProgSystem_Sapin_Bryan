@@ -66,13 +66,25 @@ public class Inode {
 
 		// TODO:
 		// 1. Numéro d'inode
+		offset += Utils.writeInt(memory, offset, inodeNumber);
 		// 2. Type
+		offset += Utils.writeInt(memory, offset, fileType);
 		// 3. Taille
+		offset += Utils.writeInt(memory, offset, fileSize);
 		// 4. Création
+		offset += Utils.writeLong(memory, offset, creationTime);
 		// 5. Modification
+		offset += Utils.writeLong(memory, offset, modificationTime);
 		// 6. 10 pointeurs directs
+		for (int indice = 0; indice < directPointers.length; indice++) {
+			offset += Utils.writeInt(memory, offset, directPointers[indice]);
+		}
 		// 7. Pointeur indirect
+		offset += Utils.writeInt(memory, offset, indirectPointer);
 		// 8. Permissions
+		offset += Utils.writeShort(memory, offset, permissions);
 		// 9. Nombre de liens
+		offset += Utils.writeInt(memory, offset, linkCount);
+
 	}
 }

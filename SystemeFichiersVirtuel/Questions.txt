@@ -1,0 +1,25 @@
+Pourquoi est-il nécessaire de définir explicitement une convention telle que big-endian lorsqu’une structure est stockée dans un tableau de byte ? Que se passerait-il si writeInt utilisait big-endian mais readInt supposait little-endian sur une autre machine ?
+- Car la lecture ne renverrai pas le bon int car à la place d'avoir 11000000 il ressortira 00000011.
+
+Pourquoi une opération telle que memory[offset] & 0xFF est-elle importante lors de la reconstruction d’une valeur entière ? Expliquez le rôle de l’opéraateur binnaire en Java.
+- Cela permet d'obtenir la bonne valeur car elle sont signés. Avec masque, on récupère seulement les 8 bits de poids faible. Comme 0xFF ne vaut que des 1(8), tous les bits avec lesquels ont fait le & binaire ressortiront tel quel, tandis que les autres seront des 0.
+
+Pourquoi tester uniquement readInt(writeInt(x)) == x peut-il être insuffisant ? Et si oui comment sampler correctement les valeurs de x ? Expliquez en quoi l’inspection directe des octets permet de détecter davantage de classes d’erreurs.
+- Car readInt et writeInt peuvent être inverse l'une de l'autre dans forcement faire les bonnes opérations mémoire. Pour vérifier on peux comparer octet par octet.
+
+Pourquoi un bitmap est-il plus compact qu’une représentation utilisant un entier par bloc ? Exprimez la taille du bitmap en fonction du nombre 
+- Car un entier est stocké sur 4 octet, hors avec un bit par bloc le bitmap prend 32 fois moins de place. Dans le cas de N blocs, le bitmap fera N bits, soit n/8 octets.
+
+Pourquoi les structures du système de fichiers doivent-elles occuper des zones mémoire déterministes ? Que se passerait-il si la position du bitmap changeait sans que les méthodes qui l’utilisent soient modifiées ?
+- Comme les méthode vérifiant la diponibilité d'un bloc regardent bit à bit, elles ne ferait pas la différence entre bitmap ou pas. Donc si le bitmap bouge, ces fonctions renverraient des résultat incohérents.
+
+Pourquoi séparer les métadonnées du fichier de son contenu ? Expliquez pourquoi un inode peut être considéré comme une structure permettant de retrouver le contenu d’un fichier sans contenir directement ce contenu.
+- Car l'inode contient des pointeurs direct qui renvoie vers les blocks où se trouvent le contenu.
+
+Pourquoi allocateBlock() doit-il commencer à rechercher à partir du bloc 129 ? Que se passerait-il si la recherche commençait au bloc 0 ?
+- Car les blocs avant 129 sont reservés par le systeme de fichier. Dans les fait si on commence à 0, cela ferait juste perdre du temps car les 130 premier bit du bitmap sont initialisés à 1. 
+
+Deux systèmes peuvent-ils posséder exactement le même nombre de blocs libres mais présenter des niveaux de fragmentation différents ? Justifiez votre réponse avec une représentation sous forme de séquence de blocs libres et occupés.
+- Oui, on peut imaginer deux systeme avec 4 bloc libre et 4 occupé mais agencé de manière différente : 00001111 / 10101010
+
+
