@@ -16,9 +16,22 @@ public class CompteurDangereux {
                 // TODO: Expliquer pourquoi cette ligne pose problème
                 compteurGlobal++;  // RACE CONDITION ICI !
             }
-            System.out.println(nom + " terminé. Compteur vu : " + compteurGlobal);
+            //System.out.println(nom + " terminé. Compteur vu : " + compteurGlobal);
         }
     }
+	
+	public static void run() {
+		Thread[] tabThread = new Thread[9];
+		for (int indice = 0; indice < tabThread.length; indice++) {
+			tabThread[indice] = new Thread(new Incrementeur("" + indice, 1111111));
+			tabThread[indice].start();
+		}
+		for (int indice = 0; indice < tabThread.length; indice++) {
+			try {
+				tabThread[indice].join();
+			} catch (Exception e) {}
+		}
+	}
 
     public static int getCompteur() {
         return compteurGlobal;
